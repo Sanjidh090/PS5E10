@@ -5,9 +5,9 @@ import numpy as np
 import pandas as pd
 
 # Load the pre-trained model and preprocessing artifacts
-model = pickle.load(open('xgboost_model.pkl', 'rb'))
-scaler = pickle.load(open('preprocessing_artifacts.pkl', 'rb'))
-feature_clipper = pickle.load(open('feature_engineering_clipper.pkl', 'rb'))
+model = pickle.load(open('./xgboost_model.pkl', 'rb'))
+scaler = pickle.load(open('./preprocessing_artifacts.pkl', 'rb'))
+feature_clipper = pickle.load(open('./feature_engineering_clipper.pkl', 'rb'))
 
 # Function to predict accident risk
 def predict_accident(features):
