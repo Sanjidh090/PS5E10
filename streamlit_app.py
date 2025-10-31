@@ -164,17 +164,26 @@ if st.sidebar.button("Predict Risk Score"):
         # 4. Make prediction
         model_features = model.get_booster().feature_names
         
-        # Create a final dataframe with all expected columns, in order
         processed_df_final = pd.DataFrame(columns=model_features)
         processed_df_final = pd.concat([processed_df_final, processed_df])
         
-        # Handle type conversion for categorical columns
+        # --- START OF FIX ---
+        
+        # Handle NaNs in CATEGORICAL columns first
         for col in processed_df_final.select_dtypes(include=['category']).columns:
-            if processed_df_final[col].isnull().all():
-                 processed_df_final[col] = processed_df_final[col].astype(object).fillna("Unknown")
-                 processed_df_final[col] = processed_df_final[col].astype("category")
+            # Add "Unknown" as a valid category if it doesn't exist
+            if "Unknown" not in processed_df_final[col].cat.categories:
+                processed_df_final[col] = processed_df_final[col].cat.add_categories("Unknown")
+            
+            # Fill any NaNs with our safe "Unknown" category
+            processed_df_final[col] = processed_df_final[col].fillna("Unknown")
 
+        # Now, fill all remaining NaNs (which are in NUMERIC columns) with 0
         processed_df_final = processed_df_final.fillna(0)
+        
+        # --- END OF FIX ---
+        
+        # Filter to only model features (ensures correct column order)
         processed_df_final = processed_df_final[model_features]
 
         prediction = model.predict(processed_df_final)
