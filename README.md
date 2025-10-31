@@ -4,7 +4,7 @@ An interactive web application for the Stack Overflow and Kaggle Code Scientist 
 
 ## 🎮 Try the Game
 
-[Live Demo on Streamlit Cloud](https://your-app-url-here.streamlit.app) _(Deploy to get URL)_
+[Live Demo on Streamlit Cloud](https://abrakedavra.streamlit.app/) _(https://abrakedavra.streamlit.app/)_
 
 ## 📋 About
 
